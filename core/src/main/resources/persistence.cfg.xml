@@ -1,0 +1,81 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/data/jpa
+    http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+    <context:component-scan base-package="com.tk"/>
+    <tx:annotation-driven/>
+    <jpa:repositories base-package="com.tk"/>
+
+    <!--Services-->
+    <bean id="customerService" class="com.tk.service.impl.CustomerServiceImpl"/>
+    <bean id="productService" class="com.tk.service.impl.ProductServiceImpl"/>
+    <bean id="orderService" class="com.tk.service.impl.OrderServiceImpl"/>
+    <bean id="itemService" class="com.tk.service.impl.ItemServiceImpl"/>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:application.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--dataSource-->
+
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+        <constructor-arg ref="hikariConfig"/>
+    </bean>
+
+    <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+        <property name="poolName" value="mercatus_connection_pool"/>
+        <property name="dataSourceClassName" value="com.mysql.jdbc.jdbc2.optional.MysqlDataSource"/>
+        <property name="maximumPoolSize" value="50"/>
+        <property name="maxLifetime" value="60000"/>
+        <property name="idleTimeout" value="30000"/>
+        <property name="dataSourceProperties">
+            <props>
+                <prop key="url">${development.dataSource.url}</prop>
+                <prop key="user">${development.dataSource.username}</prop>
+                <prop key="password">${development.dataSource.password}</prop>
+                <prop key="cachePrepStmts">${dataSource.cachePrepStmts}</prop>
+                <prop key="prepStmtCacheSize">${dataSource.prepStmtCacheSize}</prop>
+                <prop key="prepStmtCacheSqlLimit">${dataSource.prepStmtCacheSqlLimit}</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--LocalContainerEntityManagerFactoryBean-->
+    <bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
+        <property name="packagesToScan" value="com.tk"/>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.ejb.naming_strategy">${hibernate.ejb.naming_strategy}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--JpaTransactionManager-->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+</beans>
