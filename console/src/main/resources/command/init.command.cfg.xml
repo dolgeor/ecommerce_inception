@@ -1,0 +1,66 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <import resource="classpath:command/customer.command.cfg.xml"/>
+    <import resource="classpath:command/product.command.cfg.xml"/>
+    <import resource="classpath:command/order.command.cfg.xml"/>
+
+    <bean id="quit" class="menu.MenuOption">
+        <constructor-arg name="option" value="q"/>
+        <constructor-arg name="message" value="Quit the application"/>
+        <property name="command">
+            <bean class="menu.command.QuitApplicationCommand"/>
+        </property>
+    </bean>
+    <bean id="init" class="menu.MenuOption">
+        <constructor-arg name="option" value="b"/>
+        <constructor-arg name="message" value="Go back to the initial view"/>
+        <property name="command" ref="showInitialMenuCommand"/>
+    </bean>
+
+    <bean id="initialMenu" class="menu.Menu" autowire="byName">
+        <property name="options">
+            <list value-type="menu.MenuOption">
+                <ref bean="initialMenu_c"/>
+                <ref bean="initialMenu_p"/>
+                <ref bean="initialMenu_o"/>
+                <ref bean="quit"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="initialMenu_c" class="menu.MenuOption">
+        <constructor-arg name="option" value="c"/>
+        <constructor-arg name="message" value="Select to navigate to “Manage Customers” view"/>
+        <property name="command" ref="showCustomerMenuCommand"/>
+    </bean>
+    <bean id="initialMenu_p" class="menu.MenuOption">
+        <constructor-arg name="option" value="p"/>
+        <constructor-arg name="message" value="Select to navigate to “Manage Products” view"/>
+        <property name="command" ref="showProductMenuCommand"/>
+    </bean>
+    <bean id="initialMenu_o" class="menu.MenuOption">
+        <constructor-arg name="option" value="o"/>
+        <constructor-arg name="message" value="Select to navigate to “Manage Orders” view"/>
+        <property name="command" ref="showOrderMenuCommand"/>
+    </bean>
+
+    <bean id="showInitialMenuCommand" class="menu.command.ShowMenuCommand">
+        <property name="menu" ref="initialMenu"/>
+    </bean>
+    <bean id="showCustomerMenuCommand" class="menu.command.ShowMenuCommand" >
+        <property name="menu" ref="customerMenu"/>
+    </bean>
+    <bean id="showCustomerEditMenuCommand" class="menu.command.ShowMenuCommand" >
+        <property name="menu" ref="customerEditMenu"/>
+    </bean>
+    <bean id="showProductMenuCommand" class="menu.command.ShowMenuCommand">
+        <property name="menu" ref="productMenu"/>
+    </bean>
+    <bean id="showOrderMenuCommand" class="menu.command.ShowMenuCommand">
+        <property name="menu" ref="orderMenu"/>
+    </bean>
+
+</beans>

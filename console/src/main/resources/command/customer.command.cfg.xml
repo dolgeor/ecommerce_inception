@@ -1,0 +1,82 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <bean id="customerMenu" class="menu.Menu" autowire="byName">
+        <property name="options">
+            <list value-type="menu.MenuOption">
+                <ref bean="customerMenu_l"/>
+                <ref bean="customerMenu_n"/>
+                <ref bean="customerMenu_i"/>
+                <ref bean="customerMenu_e"/>
+                <ref bean="customerMenu_d"/>
+                <ref bean="init"/>
+                <ref bean="quit"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="customerMenu_l" class="menu.MenuOption">
+        <constructor-arg name="option" value="l"/>
+        <constructor-arg name="message" value="Show all the customers registered in system"/>
+        <property name="command">
+            <bean class="menu.command.customer.ShowAllCustomersCommand"/>
+        </property>
+    </bean>
+    <bean id="customerMenu_n" class="menu.MenuOption">
+        <constructor-arg name="option" value="n"/>
+        <constructor-arg name="message" value="Search the customers by name"/>
+        <property name="command">
+            <bean class="menu.command.customer.SearchCustomerByNameCommand" />
+        </property>
+    </bean>
+    <bean id="customerMenu_i" class="menu.MenuOption">
+        <constructor-arg name="option" value="i"/>
+        <constructor-arg name="message" value="Create a new customer"/>
+        <property name="command">
+            <bean class="menu.command.customer.CreateCustomerCommand"/>
+        </property>
+    </bean>
+    <bean id="customerMenu_e" class="menu.MenuOption">
+        <constructor-arg name="option" value="e"/>
+        <constructor-arg name="message" value="Edit customer"/>
+        <property name="command">
+            <bean class="menu.command.customer.EditCustomerCommand"/>
+        </property>
+    </bean>
+    <bean id="customerMenu_d" class="menu.MenuOption">
+        <constructor-arg name="option" value="d"/>
+        <constructor-arg name="message" value="Remove customer"/>
+        <property name="command">
+            <bean class="menu.command.customer.RemoveCustomerCommand"/>
+        </property>
+    </bean>
+
+    <bean id="customerEditMenu" class="menu.Menu" autowire="byName">
+        <property name="options">
+            <list value-type="menu.MenuOption">
+                <ref bean="customerEditMenu_n"/>
+                <ref bean="customerEditMenu_a"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="customerEditMenu_n" class="menu.MenuOption">
+        <constructor-arg name="option" value="n"/>
+        <constructor-arg name="message" value="Update name"/>
+        <property name="command">
+            <bean class="menu.command.customer.edit.EditCustomerNameCommand"/>
+        </property>
+    </bean>
+    <bean id="customerEditMenu_a" class="menu.MenuOption">
+        <constructor-arg name="option" value="a"/>
+        <constructor-arg name="message" value="Update addresses"/>
+        <property name="command">
+            <bean class="menu.command.customer.edit.EditCustomerAddressesCommand"/>
+        </property>
+    </bean>
+    
+</beans>

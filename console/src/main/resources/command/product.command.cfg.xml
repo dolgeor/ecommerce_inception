@@ -1,0 +1,66 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <bean id="productMenu" class="menu.Menu">
+        <property name="options">
+            <list value-type="menu.MenuOption">
+                <ref bean="productMenu_l"/>
+                <ref bean="productMenu_n"/>
+                <ref bean="productMenu_s"/>
+                <ref bean="productMenu_i"/>
+                <ref bean="productMenu_e"/>
+                <ref bean="productMenu_d"/>
+                <ref bean="init"/>
+                <ref bean="quit"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="productMenu_l" class="menu.MenuOption">
+        <constructor-arg name="option" value="l"/>
+        <constructor-arg name="message" value="Show all products"/>
+        <property name="command">
+            <bean class="menu.command.product.ListAllProductsCommand"/>
+        </property>
+    </bean>
+    <bean id="productMenu_n" class="menu.MenuOption">
+        <constructor-arg name="option" value="n"/>
+        <constructor-arg name="message" value="Show products by name"/>
+        <property name="command">
+            <bean class="menu.command.product.GetProductsByNameCommand"/>
+        </property>
+    </bean>
+    <bean id="productMenu_s" class="menu.MenuOption">
+        <constructor-arg name="option" value="s"/>
+        <constructor-arg name="message" value="Show products by SKU"/>
+        <property name="command">
+            <bean class="menu.command.product.GetProductsBySkuCommand"/>
+        </property>
+    </bean>
+    <bean id="productMenu_i" class="menu.MenuOption">
+        <constructor-arg name="option" value="i"/>
+        <constructor-arg name="message" value="Create a new product"/>
+        <property name="command">
+            <bean class="menu.command.product.CreateProductCommand"/>
+        </property>
+    </bean>
+    <bean id="productMenu_e" class="menu.MenuOption">
+        <constructor-arg name="option" value="e"/>
+        <constructor-arg name="message" value="Edit product"/>
+        <property name="command">
+            <bean class="menu.command.product.EditProductCommand"/>
+        </property>
+    </bean>
+    <bean id="productMenu_d" class="menu.MenuOption">
+        <constructor-arg name="option" value="d"/>
+        <constructor-arg name="message" value="Delete product"/>
+        <property name="command">
+            <bean class="menu.command.product.RemoveProductCommand"/>
+        </property>
+    </bean>
+
+</beans>

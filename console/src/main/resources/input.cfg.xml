@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+     http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+    <bean id="dataProvider" class="util.DataProvider"/>
+
+    <bean id="inputReader" class="util.input.InputReader"/>
+
+    <bean id="bufferedReader" class="java.io.BufferedReader">
+        <constructor-arg ref="inputStreamReader"/>
+    </bean>
+
+    <bean id="inputStreamReader" class="java.io.InputStreamReader">
+        <constructor-arg>
+            <util:constant static-field="java.lang.System.in"/>
+        </constructor-arg>
+    </bean>
+
+</beans>

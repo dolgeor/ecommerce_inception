@@ -1,0 +1,66 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <bean id="orderMenu" class="menu.Menu">
+        <property name="options">
+            <list value-type="menu.MenuOption">
+                <ref bean="orderMenu_l"/>
+                <ref bean="orderMenu_o"/>
+                <ref bean="orderMenu_i"/>
+                <ref bean="orderMenu_p"/>
+                <ref bean="orderMenu_c"/>
+                <ref bean="orderMenu_d"/>
+                <ref bean="init"/>
+                <ref bean="quit"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="orderMenu_l" class="menu.MenuOption">
+        <constructor-arg name="option" value="l"/>
+        <constructor-arg name="message" value="Show all orders"/>
+        <property name="command">
+            <bean class="menu.command.order.ShowAllOrdersCommand"/>
+        </property>
+    </bean>
+    <bean id="orderMenu_o" class="menu.MenuOption">
+        <constructor-arg name="option" value="o"/>
+        <constructor-arg name="message" value="Show order by order id"/>
+        <property name="command">
+            <bean class="menu.command.order.ShowOrderByOrderIdCommand"/>
+        </property>
+    </bean>
+    <bean id="orderMenu_i" class="menu.MenuOption">
+        <constructor-arg name="option" value="i"/>
+        <constructor-arg name="message" value="Insert an order"/>
+        <property name="command">
+            <bean class="menu.command.order.InsertNewOrderCommand"/>
+        </property>
+    </bean>
+    <bean id="orderMenu_p" class="menu.MenuOption">
+        <constructor-arg name="option" value="p"/>
+        <constructor-arg name="message" value="Show order by product id"/>
+        <property name="command">
+            <bean class="menu.command.order.ShowOrderByProductIdCommand"/>
+        </property>
+    </bean>
+    <bean id="orderMenu_c" class="menu.MenuOption">
+        <constructor-arg name="option" value="c"/>
+        <constructor-arg name="message" value="Show order by customer id"/>
+        <property name="command">
+            <bean class="menu.command.order.ShowOrderByCustomerIdCommand"/>
+        </property>
+    </bean>
+    <bean id="orderMenu_d" class="menu.MenuOption">
+        <constructor-arg name="option" value="d"/>
+        <constructor-arg name="message" value="Show order placed on a certain date"/>
+        <property name="command">
+            <bean class="menu.command.order.ShowOrderByDateCommand"/>
+        </property>
+    </bean>
+
+</beans>
